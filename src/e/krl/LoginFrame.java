@@ -54,14 +54,19 @@ public class LoginFrame extends javax.swing.JFrame {
                 if(result.getString("username").equals(admin.getUsername())){
                     if(result.getString("password").equals(admin.getPassword())){
                         System.out.println("Anda Behasil Login");
+                        new LoginFrame().dispose();
+                        MainMenu.setVisible(true);
                     }else{
                         System.out.println("Password Anda Salah");
+                        PasswordError.setText("Password Anda Salah");
                     }
                 }else{
                     System.out.println("Username Anda Salah");
+                    UsernameError.setText("Username Anda Salah");
                 }
             }else{
                 System.out.println("Username Tidak Ada");
+                UsernameError.setText("Username Tidak Ada");
             }
         }catch(SQLException error){
             System.out.println(error.getSQLState());
@@ -79,6 +84,7 @@ public class LoginFrame extends javax.swing.JFrame {
         RegisterButton = new javax.swing.JButton();
         PasswordRegister = new javax.swing.JPasswordField();
         jLabel8 = new javax.swing.JLabel();
+        MainMenu = new javax.swing.JFrame();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -86,6 +92,8 @@ public class LoginFrame extends javax.swing.JFrame {
         LoginButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         PasswordForm = new javax.swing.JPasswordField();
+        PasswordError = new javax.swing.JLabel();
+        UsernameError = new javax.swing.JLabel();
 
         RegisterFrame.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -145,6 +153,8 @@ public class LoginFrame extends javax.swing.JFrame {
         });
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 150, -1, 30));
         getContentPane().add(PasswordForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, 120, -1));
+        getContentPane().add(PasswordError, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 120, 20));
+        getContentPane().add(UsernameError, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 120, 20));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -178,10 +188,13 @@ public class LoginFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton LoginButton;
+    private javax.swing.JFrame MainMenu;
+    private javax.swing.JLabel PasswordError;
     private javax.swing.JPasswordField PasswordForm;
     private javax.swing.JPasswordField PasswordRegister;
     private javax.swing.JButton RegisterButton;
     private javax.swing.JFrame RegisterFrame;
+    private javax.swing.JLabel UsernameError;
     private javax.swing.JTextField UsernameForm;
     private javax.swing.JTextField UsernameRegister;
     private javax.swing.JLabel jLabel1;
