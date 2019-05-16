@@ -30,7 +30,7 @@ public class LoginFrame extends javax.swing.JFrame {
     DefaultTableModel model = new DefaultTableModel();
     
     Admin admin = new Admin();
-
+    
     public LoginFrame() throws SQLException {
         initComponents();
         DBConnection.RunConnection();
@@ -39,6 +39,8 @@ public class LoginFrame extends javax.swing.JFrame {
         DatePicker.setDateFormatString("YYYY-MM-dd");
         LoadTable();
         RegisterFrame.setSize(400, 300);
+        MainMenu.setSize(643, 405);
+//        new LoginFrame().setSize(400, 300);
     }
     
     private void LoadTable() throws SQLException{
@@ -223,6 +225,7 @@ public class LoginFrame extends javax.swing.JFrame {
         JadwalTable = new javax.swing.JTable();
         DatePicker = new com.toedter.calendar.JDateChooser();
         jButton1 = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("db_e_ticket?zeroDateTimeBehavior=convertToNullPU").createEntityManager();
         jadwalPemberangkatanQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT j FROM JadwalPemberangkatan j");
         jadwalPemberangkatanList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : jadwalPemberangkatanQuery.getResultList();
@@ -235,17 +238,11 @@ public class LoginFrame extends javax.swing.JFrame {
         PasswordError = new javax.swing.JLabel();
         UsernameError = new javax.swing.JLabel();
 
-        RegisterFrame.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         jLabel5.setText("Register Admin");
-        RegisterFrame.getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 11, -1, -1));
 
         jLabel6.setText("Username");
-        RegisterFrame.getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, -1, 20));
 
         jLabel7.setText("Password");
-        RegisterFrame.getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, -1, 20));
-        RegisterFrame.getContentPane().add(UsernameRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 120, 20));
 
         RegisterButton.setText("Register");
         RegisterButton.addActionListener(new java.awt.event.ActionListener() {
@@ -253,16 +250,63 @@ public class LoginFrame extends javax.swing.JFrame {
                 RegisterButtonActionPerformed(evt);
             }
         });
-        RegisterFrame.getContentPane().add(RegisterButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 150, 120, -1));
-        RegisterFrame.getContentPane().add(PasswordRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, 120, -1));
 
-        jLabel8.setText("Login");
+        jLabel8.setText("Back");
         jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel8MouseClicked(evt);
             }
         });
-        RegisterFrame.getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 150, 50, 20));
+
+        javax.swing.GroupLayout RegisterFrameLayout = new javax.swing.GroupLayout(RegisterFrame.getContentPane());
+        RegisterFrame.getContentPane().setLayout(RegisterFrameLayout);
+        RegisterFrameLayout.setHorizontalGroup(
+            RegisterFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RegisterFrameLayout.createSequentialGroup()
+                .addContainerGap(78, Short.MAX_VALUE)
+                .addGroup(RegisterFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(RegisterFrameLayout.createSequentialGroup()
+                        .addGap(112, 112, 112)
+                        .addComponent(jLabel5))
+                    .addGroup(RegisterFrameLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(22, 22, 22)
+                        .addComponent(UsernameRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(RegisterFrameLayout.createSequentialGroup()
+                        .addGroup(RegisterFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(RegisterFrameLayout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(24, 24, 24)
+                                .addComponent(PasswordRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(50, 50, 50))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RegisterFrameLayout.createSequentialGroup()
+                                .addComponent(RegisterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(68, 68, 68)))
+                        .addComponent(jLabel8)))
+                .addGap(60, 60, 60))
+        );
+        RegisterFrameLayout.setVerticalGroup(
+            RegisterFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(RegisterFrameLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel5)
+                .addGap(45, 45, 45)
+                .addGroup(RegisterFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(UsernameRegister, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(RegisterFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PasswordRegister, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(RegisterFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(RegisterFrameLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(RegisterFrameLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(RegisterButton)))
+                .addContainerGap(110, Short.MAX_VALUE))
+        );
 
         MainMenu.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -305,7 +349,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setText("Harga Ekonomi");
-        MainMenu.getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, 80, -1));
+        MainMenu.getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, 130, -1));
 
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel14.setText("Ekonomi");
@@ -329,31 +373,33 @@ public class LoginFrame extends javax.swing.JFrame {
                 EditButtonActionPerformed(evt);
             }
         });
-        MainMenu.getContentPane().add(EditButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 100, 70, -1));
+        MainMenu.getContentPane().add(EditButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 100, 90, -1));
 
-        DeleteButton.setText("Hapus");
+        DeleteButton.setText("Delete");
         DeleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DeleteButtonActionPerformed(evt);
             }
         });
-        MainMenu.getContentPane().add(DeleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 140, 70, -1));
+        MainMenu.getContentPane().add(DeleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 140, 90, -1));
 
-        AddButton.setText("Tambah");
+        AddButton.setText("Add");
         AddButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddButtonActionPerformed(evt);
             }
         });
-        MainMenu.getContentPane().add(AddButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 60, -1, -1));
+        MainMenu.getContentPane().add(AddButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 60, 90, -1));
         MainMenu.getContentPane().add(PriceForm2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 210, 80, -1));
 
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel18.setText("Harga Eksekutif");
-        MainMenu.getContentPane().add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, -1, -1));
+        MainMenu.getContentPane().add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 190, 160, -1));
         MainMenu.getContentPane().add(PriceForm3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 210, 80, 20));
 
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setText("Harga FirstClass");
-        MainMenu.getContentPane().add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 190, -1, -1));
+        MainMenu.getContentPane().add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, 140, -1));
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jadwalPemberangkatanList, JadwalTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
@@ -413,20 +459,23 @@ public class LoginFrame extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        MainMenu.getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 180, 70, -1));
+        MainMenu.getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 180, 90, -1));
+
+        jLabel20.setText("Logout");
+        jLabel20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel20MouseClicked(evt);
+            }
+        });
+        MainMenu.getContentPane().add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 0, -1, 30));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Login Admin");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, -1));
 
         jLabel2.setText("Username");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, -1, 20));
 
         jLabel3.setText("Password");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, -1, 20));
-        getContentPane().add(UsernameForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 120, 20));
 
         LoginButton.setText("Login");
         LoginButton.addActionListener(new java.awt.event.ActionListener() {
@@ -434,10 +483,53 @@ public class LoginFrame extends javax.swing.JFrame {
                 LoginButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(LoginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 150, 120, -1));
-        getContentPane().add(PasswordForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, 120, -1));
-        getContentPane().add(PasswordError, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 120, 20));
-        getContentPane().add(UsernameError, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 120, 20));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(68, 68, 68)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(LoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(100, 100, 100)
+                            .addComponent(jLabel1))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addGap(22, 22, 22)
+                            .addComponent(UsernameForm, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(70, 70, 70)
+                            .addComponent(UsernameError, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addGap(24, 24, 24)
+                            .addComponent(PasswordForm, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(70, 70, 70)
+                            .addComponent(PasswordError, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(112, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(jLabel1)
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(UsernameForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(UsernameError, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PasswordForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(PasswordError, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(LoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(85, Short.MAX_VALUE))
+        );
 
         bindingGroup.bind();
 
@@ -445,7 +537,7 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-        this.setVisible(true);
+        MainMenu.setVisible(true);
         RegisterFrame.dispose();
     }//GEN-LAST:event_jLabel8MouseClicked
 
@@ -512,6 +604,11 @@ public class LoginFrame extends javax.swing.JFrame {
     ClearForm();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
+    MainMenu.dispose();
+    this.setVisible(true);
+    }//GEN-LAST:event_jLabel20MouseClicked
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
@@ -565,6 +662,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
