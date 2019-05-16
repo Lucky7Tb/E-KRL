@@ -4,6 +4,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -35,8 +36,7 @@ public class LoginFrame extends javax.swing.JFrame {
         DBConnection.RunConnection();
         statement = DBConnection.statement;
         result = DBConnection.result;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        DatePicker.setDateFormat(dateFormat);
+        DatePicker.setDateFormatString("YYYY-MM-dd");
         LoadTable();
         RegisterFrame.setSize(400, 300);
     }
@@ -45,7 +45,7 @@ public class LoginFrame extends javax.swing.JFrame {
         result = statement.executeQuery("SELECT * FROM jadwal_pemberangkatan");
         JadwalTable.setModel(DbUtils.resultSetToTableModel(result));
     }
-
+    
     private void Register() {
         admin.setUsername(UsernameRegister.getText().toLowerCase());
         admin.setPassword(PasswordRegister.getText());
@@ -67,8 +67,8 @@ public class LoginFrame extends javax.swing.JFrame {
                     System.out.println("Register Gagal");
                 }
             }
-        } catch (SQLException error) {
-            System.out.println(error.getSQLState());
+        } catch (Exception Error) {
+           Error.printStackTrace();
         }
     }
 
@@ -82,17 +82,56 @@ public class LoginFrame extends javax.swing.JFrame {
             HargaEkonomi = Integer.parseInt(PriceForm.getText());
             HargaEksekutif = Integer.parseInt(PriceForm2.getText());
             HargaFirstClass = Integer.parseInt(PriceForm3.getText());
-            Query = String.format(Query, "PBKT"+ID, FormStasiunBerangkat.getSelectedItem(), FormStasiunTujuan.getSelectedItem(), DatePicker.getSelectedDate(), TimeChooser.getCalendarWithTime(date), TimeChooser2.getCalendarWithTime(date), HargaEkonomi, HargaEksekutif, HargaFirstClass, Ekonomi, Eksekutif, FirstClass);
+            Query = String.format(Query, "PBKT"+ID, "BD - Bandung - Bandung", FormStasiunTujuan.getSelectedItem(), DatePicker.getDate(), TimeChooser.getCalendarWithTime(date), TimeChooser2.getCalendarWithTime(date), HargaEkonomi, HargaEksekutif, HargaFirstClass, Ekonomi, Eksekutif, FirstClass);
             if (!statement.execute(Query)) {
                 System.out.println("Data Berhasil Masuk");
                 LoadTable();
+                ClearForm();
             } else {
                 System.out.println("Gagal");
             }
-        } catch (SQLException error) {
-            System.out.println(error.getSQLState());
+        } catch (Exception Error) {
+             Error.printStackTrace();
         }
     }
+    
+    private void DeleteData(){
+        try{
+            String Id = DisplayId.getText();
+            Query = String.format("DELETE FROM jadwal_pemberangkatan WHERE id = '%s' ", Id);
+             if (!statement.execute(Query)) {
+                System.out.println("Data Berhasil Dihapus");
+                LoadTable();
+                ClearForm();
+            } else {
+                System.out.println("Gagal");
+            }
+        }catch(Exception Error){
+            Error.printStackTrace();
+        }
+    }
+    
+    private void UpdateData(){
+        try{
+            Query = "UPDATE jadwal_pemberangkatan SET stasiun_tujuan = '%s', tanggal = '%tF', waktu_berangkat = '%tT', waktu_sampai = '%tT', harga = %d, harga_eksekutif = %d, harga_firstclass = %d, ekonomi = %d, eksekutif = %d, firstclass = %d WHERE id = '%s' ";
+            Ekonomi = Integer.parseInt(EkonomiForm.getText());
+            Eksekutif = Integer.parseInt(EksekutifForm.getText());
+            FirstClass = Integer.parseInt(FirstClassForm.getText());
+            HargaEkonomi = Integer.parseInt(PriceForm.getText());
+            HargaEksekutif = Integer.parseInt(PriceForm2.getText());
+            HargaFirstClass = Integer.parseInt(PriceForm3.getText());
+            Query = String.format(Query, FormStasiunTujuan.getSelectedItem(), DatePicker.getDate(), TimeChooser.getCalendarWithTime(date), TimeChooser2.getCalendarWithTime(date), HargaEkonomi, HargaEksekutif, HargaFirstClass, Ekonomi, Eksekutif, FirstClass, DisplayId.getText());
+            if (!statement.execute(Query)) {
+              System.out.println("Data Berhasil DiUpdate");
+              LoadTable();
+              ClearForm();
+            } else {
+                System.out.println("Gagal");
+            }
+        }catch(Exception Error){
+            Error.printStackTrace();
+        }
+    } 
 
     private void Login() {
         admin.setUsername(UsernameForm.getText().toLowerCase());
@@ -108,18 +147,36 @@ public class LoginFrame extends javax.swing.JFrame {
                         MainMenu.setVisible(true);
                     } else {
                         System.out.println("Password Anda Salah");
+                        UsernameError.setText("");
                         PasswordError.setText("Password Anda Salah");
                     }
                 } else {
                     System.out.println("Username Anda Salah");
+                    PasswordError.setText("");
                     UsernameError.setText("Username Anda Salah");
                 }
             } else {
                 System.out.println("Username Tidak Ada");
                 UsernameError.setText("Username Tidak Ada");
+                PasswordError.setText("");
             }
-        } catch (SQLException error) {
-            System.out.println(error.getSQLState());
+        } catch (Exception Error) {
+             Error.printStackTrace();
+        }
+    }
+    
+    private void ClearForm(){
+        try {
+            TimeChooser.setTime(dateFormat2.parse("00:00:00"));
+            TimeChooser2.setTime(dateFormat2.parse("00:00:00"));
+            EkonomiForm.setText("");
+            EksekutifForm.setText("");
+            FirstClassForm.setText("");
+            PriceForm.setText("");
+            PriceForm2.setText("");
+            PriceForm3.setText("");
+        } catch (ParseException ex) {
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -141,8 +198,6 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         TimeChooser = new lu.tudor.santec.jtimechooser.JTimeChooser();
         TimeChooser2 = new lu.tudor.santec.jtimechooser.JTimeChooser();
-        DatePicker = new datechooser.beans.DateChooserCombo();
-        FormStasiunBerangkat = new javax.swing.JComboBox<>();
         FormStasiunTujuan = new javax.swing.JComboBox<>();
         PriceForm = new javax.swing.JTextField();
         FirstClassForm = new javax.swing.JTextField();
@@ -166,6 +221,8 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         JadwalTable = new javax.swing.JTable();
+        DatePicker = new com.toedter.calendar.JDateChooser();
+        jButton1 = new javax.swing.JButton();
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("db_e_ticket?zeroDateTimeBehavior=convertToNullPU").createEntityManager();
         jadwalPemberangkatanQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT j FROM JadwalPemberangkatan j");
         jadwalPemberangkatanList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : jadwalPemberangkatanQuery.getResultList();
@@ -209,41 +266,42 @@ public class LoginFrame extends javax.swing.JFrame {
 
         MainMenu.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Main Menu");
-        MainMenu.getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 60, 20));
+        MainMenu.getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 100, 20));
 
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Create New Admin");
         jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel4MouseClicked(evt);
             }
         });
-        MainMenu.getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 0, 100, 30));
+        MainMenu.getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 130, 30));
         MainMenu.getContentPane().add(TimeChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 90, -1, -1));
-        MainMenu.getContentPane().add(TimeChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 90, -1, -1));
-        MainMenu.getContentPane().add(DatePicker, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, -1, -1));
+        MainMenu.getContentPane().add(TimeChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 90, -1, -1));
 
-        FormStasiunBerangkat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BD - Bandung - Bandung ", "CN - Cirebon - Cirebon", "GMR - Gambir - Jakarta", "PSE - Pasar Senen - Jakarta", "ML - Malang - Malang", "SMC - Semarang Poncol - Semarang", "SBI - Surabaya Pasar Turi - Surabaya", "YK - Yogyakarta - Yogyakarta" }));
-        MainMenu.getContentPane().add(FormStasiunBerangkat, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 150, -1));
-
-        FormStasiunTujuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BD - Bandung - Bandung ", "CN - Cirebon - Cirebon", "GMR - Gambir - Jakarta", "PSE - Pasar Senen - Jakarta", "ML - Malang - Malang", "SMC - Semarang Poncol - Semarang", "SBI - Surabaya Pasar Turi - Surabaya", "YK - Yogyakarta - Yogyakarta" }));
-        MainMenu.getContentPane().add(FormStasiunTujuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 60, 150, -1));
+        FormStasiunTujuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " CN - Cirebon - Cirebon", "PSE - Pasar Senen - Jakarta", "ML - Malang - Malang", "SMC - Semarang Poncol - Semarang", "SBI - Surabaya Pasar Turi - Surabaya", "YK - Yogyakarta - Yogyakarta" }));
+        MainMenu.getContentPane().add(FormStasiunTujuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, 150, -1));
         MainMenu.getContentPane().add(PriceForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, 80, 20));
-        MainMenu.getContentPane().add(FirstClassForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 160, 60, -1));
-        MainMenu.getContentPane().add(EkonomiForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, 60, -1));
-        MainMenu.getContentPane().add(EksekutifForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, 60, -1));
-        MainMenu.getContentPane().add(DisplayId, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 30));
+        MainMenu.getContentPane().add(FirstClassForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 160, 80, -1));
+        MainMenu.getContentPane().add(EkonomiForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, 80, -1));
+        MainMenu.getContentPane().add(EksekutifForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 80, -1));
+
+        DisplayId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        MainMenu.getContentPane().add(DisplayId, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 30));
 
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Ke");
-        MainMenu.getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 60, 30, 20));
+        jLabel10.setText("Tujuan");
+        MainMenu.getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, 60, 20));
 
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("Sampai");
-        MainMenu.getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, 40, 20));
+        MainMenu.getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, 70, 20));
 
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("Berangkat");
-        MainMenu.getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, -1, 20));
+        MainMenu.getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 70, 20));
 
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setText("Harga Ekonomi");
@@ -251,25 +309,35 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel14.setText("Ekonomi");
-        MainMenu.getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, 60, -1));
+        MainMenu.getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 80, -1));
 
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel15.setText("Eksekutif");
         jLabel15.setToolTipText("");
-        MainMenu.getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 140, 60, -1));
+        MainMenu.getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, 80, -1));
 
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel16.setText("FirstClass");
-        MainMenu.getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, 60, -1));
+        MainMenu.getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 140, 80, -1));
 
         jLabel17.setText("Jumlah Tiket");
         MainMenu.getContentPane().add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, -1, -1));
 
-        EditButton.setText("Edit");
-        MainMenu.getContentPane().add(EditButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 100, 70, -1));
+        EditButton.setText("Update");
+        EditButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditButtonActionPerformed(evt);
+            }
+        });
+        MainMenu.getContentPane().add(EditButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 100, 70, -1));
 
         DeleteButton.setText("Hapus");
-        MainMenu.getContentPane().add(DeleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 140, 70, -1));
+        DeleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeleteButtonActionPerformed(evt);
+            }
+        });
+        MainMenu.getContentPane().add(DeleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 140, 70, -1));
 
         AddButton.setText("Tambah");
         AddButton.addActionListener(new java.awt.event.ActionListener() {
@@ -277,18 +345,21 @@ public class LoginFrame extends javax.swing.JFrame {
                 AddButtonActionPerformed(evt);
             }
         });
-        MainMenu.getContentPane().add(AddButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 60, -1, -1));
-        MainMenu.getContentPane().add(PriceForm2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 210, 60, -1));
+        MainMenu.getContentPane().add(AddButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 60, -1, -1));
+        MainMenu.getContentPane().add(PriceForm2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 210, 80, -1));
 
         jLabel18.setText("Harga Eksekutif");
         MainMenu.getContentPane().add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, -1, -1));
-        MainMenu.getContentPane().add(PriceForm3, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 210, 60, 20));
+        MainMenu.getContentPane().add(PriceForm3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 210, 80, 20));
 
         jLabel19.setText("Harga FirstClass");
         MainMenu.getContentPane().add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 190, -1, -1));
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jadwalPemberangkatanList, JadwalTable);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${stasiunPemberangkatan}"));
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
+        columnBinding.setColumnName("Id");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${stasiunPemberangkatan}"));
         columnBinding.setColumnName("Stasiun Pemberangkatan");
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${stasiunTujuan}"));
@@ -324,18 +395,25 @@ public class LoginFrame extends javax.swing.JFrame {
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
 
-        JadwalTable.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                JadwalTableAncestorAdded(evt);
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+        JadwalTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JadwalTableMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(JadwalTable);
 
-        MainMenu.getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 630, 100));
+        MainMenu.getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 630, 130));
+
+        DatePicker.setDateFormatString("YYYY-MM-dd");
+        MainMenu.getContentPane().add(DatePicker, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, -1, -1));
+
+        jButton1.setText("Clear");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        MainMenu.getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 180, 70, -1));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -366,11 +444,6 @@ public class LoginFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        RegisterFrame.setVisible(true);
-        MainMenu.dispose();
-    }//GEN-LAST:event_jLabel4MouseClicked
-
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         this.setVisible(true);
         RegisterFrame.dispose();
@@ -384,13 +457,60 @@ public class LoginFrame extends javax.swing.JFrame {
         Login();
     }//GEN-LAST:event_LoginButtonActionPerformed
 
+    private void JadwalTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JadwalTableMouseClicked
+        ClearForm();
+        int row = JadwalTable.rowAtPoint(evt.getPoint());
+        String Id = JadwalTable.getValueAt(row, 0).toString();
+        String StasiunTujuan = JadwalTable.getValueAt(row, 2).toString();
+        String Tanggal = JadwalTable.getValueAt(row, 3).toString();
+        String WaktuBerangkat = JadwalTable.getValueAt(row, 4).toString();
+        String WaktuSampai = JadwalTable.getValueAt(row, 5).toString();
+        String HargaEkonomi = JadwalTable.getValueAt(row, 6).toString();
+        String HargaEksekutif = JadwalTable.getValueAt(row, 7).toString();
+        String HargaFristClass = JadwalTable.getValueAt(row, 8).toString();
+        String TicketEkonomi = JadwalTable.getValueAt(row, 9).toString();
+        String TicketEksekutif = JadwalTable.getValueAt(row, 10).toString();
+        String TicketFristClass = JadwalTable.getValueAt(row, 11).toString();
+        try {
+            Date Time1 = new SimpleDateFormat("HH:mm:ss").parse(WaktuBerangkat);
+            Date Time2 = new SimpleDateFormat("HH:mm:ss").parse(WaktuSampai);
+            Date Time3 = new SimpleDateFormat("YYYY-mm-dd").parse(Tanggal);
+            DatePicker.setDate(Time3);
+            TimeChooser.setTime(Time1);
+            TimeChooser2.setTime(Time2);
+        } catch (ParseException ex) {
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        FormStasiunTujuan.setSelectedItem(StasiunTujuan);
+        EkonomiForm.setText(TicketEkonomi);
+        EksekutifForm.setText(TicketEksekutif);
+        FirstClassForm.setText(TicketFristClass);
+        PriceForm.setText(HargaEkonomi);
+        PriceForm2.setText(HargaEksekutif);
+        PriceForm3.setText(HargaFristClass);
+        DisplayId.setText(Id);
+    }//GEN-LAST:event_JadwalTableMouseClicked
+
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
         InsertData();
     }//GEN-LAST:event_AddButtonActionPerformed
 
-    private void JadwalTableAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_JadwalTableAncestorAdded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_JadwalTableAncestorAdded
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        RegisterFrame.setVisible(true);
+        MainMenu.dispose();
+    }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void DeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteButtonActionPerformed
+        DeleteData();
+    }//GEN-LAST:event_DeleteButtonActionPerformed
+
+    private void EditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditButtonActionPerformed
+        UpdateData();
+    }//GEN-LAST:event_EditButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    ClearForm();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -407,14 +527,13 @@ public class LoginFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddButton;
-    private datechooser.beans.DateChooserCombo DatePicker;
+    private com.toedter.calendar.JDateChooser DatePicker;
     private javax.swing.JButton DeleteButton;
     private javax.swing.JLabel DisplayId;
     private javax.swing.JButton EditButton;
     private javax.swing.JTextField EkonomiForm;
     private javax.swing.JTextField EksekutifForm;
     private javax.swing.JTextField FirstClassForm;
-    private javax.swing.JComboBox<String> FormStasiunBerangkat;
     private javax.swing.JComboBox<String> FormStasiunTujuan;
     private javax.swing.JTable JadwalTable;
     private javax.swing.JButton LoginButton;
@@ -433,6 +552,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JTextField UsernameForm;
     private javax.swing.JTextField UsernameRegister;
     private javax.persistence.EntityManager entityManager;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

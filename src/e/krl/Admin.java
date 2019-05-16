@@ -9,7 +9,7 @@ import java.io.UnsupportedEncodingException;
 public class Admin {
     private String Password;
     private String Username;
-    
+    private String Query;
     public void setPassword(String Password){
          try{
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -36,4 +36,5 @@ public class Admin {
     public String getPassword(){
         return Password;
     }
+    
 }
