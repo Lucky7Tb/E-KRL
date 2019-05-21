@@ -224,9 +224,9 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         JadwalTable = new javax.swing.JTable();
-        DatePicker = new com.toedter.calendar.JDateChooser();
         jButton1 = new javax.swing.JButton();
         jLabel20 = new javax.swing.JLabel();
+        DatePicker = new com.toedter.calendar.JDateChooser();
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("db_e_ticket?zeroDateTimeBehavior=convertToNullPU").createEntityManager();
         jadwalPemberangkatanQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT j FROM JadwalPemberangkatan j");
         jadwalPemberangkatanList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : jadwalPemberangkatanQuery.getResultList();
@@ -321,7 +321,7 @@ public class LoginFrame extends javax.swing.JFrame {
         MainMenu.getContentPane().add(TimeChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 90, -1, -1));
         MainMenu.getContentPane().add(TimeChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 90, -1, -1));
 
-        FormStasiunTujuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " CN - Cirebon - Cirebon", "PSE - Pasar Senen - Jakarta", "ML - Malang - Malang", "SMC - Semarang Poncol - Semarang", "SBI - Surabaya Pasar Turi - Surabaya", "YK - Yogyakarta - Yogyakarta" }));
+        FormStasiunTujuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CN - Cirebon - Cirebon", "PSE - Pasar Senen - Jakarta", "ML - Malang - Malang", "SMC - Semarang Poncol - Semarang", "SBI - Surabaya Pasar Turi - Surabaya", "YK - Yogyakarta - Yogyakarta" }));
         MainMenu.getContentPane().add(FormStasiunTujuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, 150, -1));
         MainMenu.getContentPane().add(PriceForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, 80, 20));
         MainMenu.getContentPane().add(FirstClassForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 160, 80, -1));
@@ -446,9 +446,6 @@ public class LoginFrame extends javax.swing.JFrame {
 
         MainMenu.getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 630, 130));
 
-        DatePicker.setDateFormatString("YYYY-MM-dd");
-        MainMenu.getContentPane().add(DatePicker, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, -1, -1));
-
         jButton1.setText("Clear");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -464,6 +461,10 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
         MainMenu.getContentPane().add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 0, -1, 30));
+
+        DatePicker.setDateFormatString("YYYY-MM-dd");
+        DatePicker.setMaxSelectableDate(new java.util.Date(253370743311000L));
+        MainMenu.getContentPane().add(DatePicker, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, -1, -1));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
