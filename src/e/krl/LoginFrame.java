@@ -38,7 +38,6 @@ public class LoginFrame extends javax.swing.JFrame {
         DBConnection.RunConnection();
         statement = DBConnection.statement;
         result = DBConnection.result;
-        DatePicker.setDateFormatString("YYYY-MM-dd");
         LoadTable();
         RegisterFrame.setSize(415, 339);
         MainMenu.setSize(643, 405);
@@ -78,7 +77,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void InsertData() {
         try {
-            Query = "INSERT INTO jadwal_pemberangkatan VALUE('%s','%s','%s','%tF','%tT','%tT','%d','%d','%d','%d','%d','%d')";
+            Query = "INSERT INTO jadwal_pemberangkatan VALUE('%s','%s','%s','%s','%tT','%tT','%d','%d','%d','%d','%d','%d')";
             String ID = dateFormat.format(date);
             Ekonomi = Integer.parseInt(EkonomiForm.getText());
             Eksekutif = Integer.parseInt(EksekutifForm.getText());
@@ -86,7 +85,7 @@ public class LoginFrame extends javax.swing.JFrame {
             HargaEkonomi = Integer.parseInt(PriceForm.getText());
             HargaEksekutif = Integer.parseInt(PriceForm2.getText());
             HargaFirstClass = Integer.parseInt(PriceForm3.getText());
-            Query = String.format(Query, "PBKT"+ID, "BD - Bandung - Bandung", FormStasiunTujuan.getSelectedItem(), DatePicker.getDate(), TimeChooser.getCalendarWithTime(date), TimeChooser2.getCalendarWithTime(date), HargaEkonomi, HargaEksekutif, HargaFirstClass, Ekonomi, Eksekutif, FirstClass);
+            Query = String.format(Query, "PBKT"+ID, "BD - Bandung - Bandung", FormStasiunTujuan.getSelectedItem(), DatePicker.getText(), TimeChooser.getCalendarWithTime(date), TimeChooser2.getCalendarWithTime(date), HargaEkonomi, HargaEksekutif, HargaFirstClass, Ekonomi, Eksekutif, FirstClass);
             if (!statement.execute(Query)) {
                 System.out.println("Data Berhasil Masuk");
                 LoadTable();
@@ -117,14 +116,14 @@ public class LoginFrame extends javax.swing.JFrame {
     
     private void UpdateData(){
         try{
-            Query = "UPDATE jadwal_pemberangkatan SET stasiun_tujuan = '%s', tanggal = '%tF', waktu_berangkat = '%tT', waktu_sampai = '%tT', harga = %d, harga_eksekutif = %d, harga_firstclass = %d, ekonomi = %d, eksekutif = %d, firstclass = %d WHERE id = '%s' ";
+            Query = "UPDATE jadwal_pemberangkatan SET stasiun_tujuan = '%s', tanggal = '%sadmin ', waktu_berangkat = '%tT', waktu_sampai = '%tT', harga = %d, harga_eksekutif = %d, harga_firstclass = %d, ekonomi = %d, eksekutif = %d, firstclass = %d WHERE id = '%s' ";
             Ekonomi = Integer.parseInt(EkonomiForm.getText());
             Eksekutif = Integer.parseInt(EksekutifForm.getText());
             FirstClass = Integer.parseInt(FirstClassForm.getText());
             HargaEkonomi = Integer.parseInt(PriceForm.getText());
             HargaEksekutif = Integer.parseInt(PriceForm2.getText());
             HargaFirstClass = Integer.parseInt(PriceForm3.getText());
-            Query = String.format(Query, FormStasiunTujuan.getSelectedItem(), DatePicker.getDate(), TimeChooser.getCalendarWithTime(date), TimeChooser2.getCalendarWithTime(date), HargaEkonomi, HargaEksekutif, HargaFirstClass, Ekonomi, Eksekutif, FirstClass, DisplayId.getText());
+            Query = String.format(Query, FormStasiunTujuan.getSelectedItem(), DatePicker.getText(), TimeChooser.getCalendarWithTime(date), TimeChooser2.getCalendarWithTime(date), HargaEkonomi, HargaEksekutif, HargaFirstClass, Ekonomi, Eksekutif, FirstClass, DisplayId.getText());
             if (!statement.execute(Query)) {
               System.out.println("Data Berhasil DiUpdate");
               LoadTable();
@@ -226,17 +225,19 @@ public class LoginFrame extends javax.swing.JFrame {
         JadwalTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jLabel20 = new javax.swing.JLabel();
-        DatePicker = new com.toedter.calendar.JDateChooser();
+        DatePicker = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("db_e_ticket?zeroDateTimeBehavior=convertToNullPU").createEntityManager();
         jadwalPemberangkatanQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT j FROM JadwalPemberangkatan j");
         jadwalPemberangkatanList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : jadwalPemberangkatanQuery.getResultList();
+        jLabel21 = new javax.swing.JLabel();
         PasswordForm = new javax.swing.JPasswordField();
         UsernameForm = new javax.swing.JTextField();
         UsernameError = new javax.swing.JLabel();
         PasswordError = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel21 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         UsernameRegister.setBackground(new java.awt.Color(75, 187, 244));
         UsernameRegister.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -306,6 +307,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         MainMenu.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Main Menu");
         MainMenu.getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 100, 20));
@@ -461,10 +463,12 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
         MainMenu.getContentPane().add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 0, -1, 30));
+        MainMenu.getContentPane().add(DatePicker, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 90, -1));
 
-        DatePicker.setDateFormatString("YYYY-MM-dd");
-        DatePicker.setMaxSelectableDate(new java.util.Date(253370743311000L));
-        MainMenu.getContentPane().add(DatePicker, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, -1, -1));
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Admin_data.png"))); // NOI18N
+        MainMenu.getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, -90, 680, -1));
+
+        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/LoginAdmin.png"))); // NOI18N
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -501,8 +505,8 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/LoginAdmin.png"))); // NOI18N
-        jPanel1.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 370, 280));
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/LoginAdmin.png"))); // NOI18N
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 370, 280));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 370, 280));
 
@@ -528,13 +532,12 @@ public class LoginFrame extends javax.swing.JFrame {
         try {
             Date Time1 = new SimpleDateFormat("HH:mm:ss").parse(WaktuBerangkat);
             Date Time2 = new SimpleDateFormat("HH:mm:ss").parse(WaktuSampai);
-            Date Time3 = new SimpleDateFormat("YYYY-mm-dd").parse(Tanggal);
-            DatePicker.setDate(Time3);
             TimeChooser.setTime(Time1);
             TimeChooser2.setTime(Time2);
         } catch (ParseException ex) {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        DatePicker.setText(Tanggal);
         FormStasiunTujuan.setSelectedItem(StasiunTujuan);
         EkonomiForm.setText(TicketEkonomi);
         EksekutifForm.setText(TicketEksekutif);
@@ -599,7 +602,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddButton;
-    private com.toedter.calendar.JDateChooser DatePicker;
+    private javax.swing.JTextField DatePicker;
     private javax.swing.JButton DeleteButton;
     private javax.swing.JLabel DisplayId;
     private javax.swing.JButton EditButton;
@@ -640,6 +643,8 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
