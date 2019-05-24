@@ -314,6 +314,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Create New Admin");
+        jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel4MouseClicked(evt);
@@ -457,6 +458,7 @@ public class LoginFrame extends javax.swing.JFrame {
         MainMenu.getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 180, 90, -1));
 
         jLabel20.setText("Logout");
+        jLabel20.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel20.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel20MouseClicked(evt);

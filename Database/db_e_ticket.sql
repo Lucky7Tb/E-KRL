@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 20 Bulan Mei 2019 pada 10.37
--- Versi server: 10.1.38-MariaDB
--- Versi PHP: 7.3.2
+-- Generation Time: May 24, 2019 at 11:45 AM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `admin`
+-- Table structure for table `admin`
 --
 
 CREATE TABLE `admin` (
@@ -35,7 +35,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `admin`
+-- Dumping data for table `admin`
 --
 
 INSERT INTO `admin` (`id`, `username`, `password`) VALUES
@@ -48,7 +48,7 @@ INSERT INTO `admin` (`id`, `username`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `jadwal_pemberangkatan`
+-- Table structure for table `jadwal_pemberangkatan`
 --
 
 CREATE TABLE `jadwal_pemberangkatan` (
@@ -67,19 +67,18 @@ CREATE TABLE `jadwal_pemberangkatan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `jadwal_pemberangkatan`
+-- Dumping data for table `jadwal_pemberangkatan`
 --
 
 INSERT INTO `jadwal_pemberangkatan` (`id`, `stasiun_pemberangkatan`, `stasiun_tujuan`, `tanggal`, `waktu_berangkat`, `waktu_sampai`, `harga`, `harga_eksekutif`, `harga_firstclass`, `ekonomi`, `eksekutif`, `firstclass`) VALUES
-('PBKT210546', 'BD - Bandung - Bandung', 'ML - Malang - Malang', '2017-01-01', '04:00:00', '07:00:00', 50000, 90000, 100000, 20, 20, 50),
-('PBKT212647', 'BD - Bandung - Bandung', 'SMC - Semarang Poncol - Semarang', '2017-01-01', '04:00:00', '05:00:00', 100000, 150000, 200000, 20, 20, 20),
-('PBKT212841', 'BD - Bandung - Bandung', ' CN - Cirebon - Cirebon', '2017-01-01', '04:00:00', '05:00:00', 100000, 150000, 200000, 50, 50, 50),
-('PBKT225745', 'BD - Bandung - Bandung', 'PSE - Pasar Senen - Jakarta', '2018-12-30', '12:00:00', '13:00:00', 50000, 50000, 50000, 20, 20, 20);
+('PBKT072520', 'BD - Bandung - Bandung', 'CN - Cirebon - Cirebon', '2019-05-24', '02:00:00', '09:00:00', 100000, 100000, 100000, 20, 20, 20),
+('PBKT205651', 'BD - Bandung - Bandung', 'PSE - Pasar Senen - Jakarta', '2019-05-20', '09:00:00', '12:00:00', 50000, 100000, 150000, 20, 20, 10),
+('PBKT210826', 'BD - Bandung - Bandung', 'ML - Malang - Malang', '2018-12-30', '03:00:00', '06:00:00', 10000, 20000, 30000, 20, 20, 30);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pemesanan`
+-- Table structure for table `pemesanan`
 --
 
 CREATE TABLE `pemesanan` (
@@ -91,44 +90,53 @@ CREATE TABLE `pemesanan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Dumping data for table `pemesanan`
+--
+
+INSERT INTO `pemesanan` (`id_pemesanan`, `id_pemberangkatan`, `Nama_pemesan`, `tanggal_pemesanan`, `total_harga`) VALUES
+('093857', 'PBKT210826', 'Tyo', '2019-05-24', 10000),
+('100247', 'PBKT072520', 'fitria', '2019-05-24', 100000),
+('102839', 'PBKT210826', 'hadaina', '2019-05-24', 20000);
+
+--
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `admin`
+-- Indexes for table `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `jadwal_pemberangkatan`
+-- Indexes for table `jadwal_pemberangkatan`
 --
 ALTER TABLE `jadwal_pemberangkatan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `pemesanan`
+-- Indexes for table `pemesanan`
 --
 ALTER TABLE `pemesanan`
   ADD PRIMARY KEY (`id_pemesanan`),
   ADD KEY `id_pemberangkatan` (`id_pemberangkatan`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `admin`
+-- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `pemesanan`
+-- Constraints for table `pemesanan`
 --
 ALTER TABLE `pemesanan`
   ADD CONSTRAINT `pemeberangkatan` FOREIGN KEY (`id_pemberangkatan`) REFERENCES `jadwal_pemberangkatan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
