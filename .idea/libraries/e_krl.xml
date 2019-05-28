@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="e-krl">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/JTimeChooser_0.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jcalendar-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/itextpdf-5.4.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/rs2xml.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

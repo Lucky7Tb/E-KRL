@@ -35,11 +35,8 @@ import javax.persistence.Transient;
     , @NamedQuery(name = "JadwalPemberangkatan.findByWaktuBerangkat", query = "SELECT j FROM JadwalPemberangkatan j WHERE j.waktuBerangkat = :waktuBerangkat")
     , @NamedQuery(name = "JadwalPemberangkatan.findByWaktuSampai", query = "SELECT j FROM JadwalPemberangkatan j WHERE j.waktuSampai = :waktuSampai")
     , @NamedQuery(name = "JadwalPemberangkatan.findByHarga", query = "SELECT j FROM JadwalPemberangkatan j WHERE j.harga = :harga")
-    , @NamedQuery(name = "JadwalPemberangkatan.findByHargaEksekutif", query = "SELECT j FROM JadwalPemberangkatan j WHERE j.hargaEksekutif = :hargaEksekutif")
-    , @NamedQuery(name = "JadwalPemberangkatan.findByHargaFirstclass", query = "SELECT j FROM JadwalPemberangkatan j WHERE j.hargaFirstclass = :hargaFirstclass")
-    , @NamedQuery(name = "JadwalPemberangkatan.findByEkonomi", query = "SELECT j FROM JadwalPemberangkatan j WHERE j.ekonomi = :ekonomi")
-    , @NamedQuery(name = "JadwalPemberangkatan.findByEksekutif", query = "SELECT j FROM JadwalPemberangkatan j WHERE j.eksekutif = :eksekutif")
-    , @NamedQuery(name = "JadwalPemberangkatan.findByFirstclass", query = "SELECT j FROM JadwalPemberangkatan j WHERE j.firstclass = :firstclass")})
+    , @NamedQuery(name = "JadwalPemberangkatan.findBySisaTiket", query = "SELECT j FROM JadwalPemberangkatan j WHERE j.sisaTiket = :sisaTiket")
+    , @NamedQuery(name = "JadwalPemberangkatan.findByKelas", query = "SELECT j FROM JadwalPemberangkatan j WHERE j.kelas = :kelas")})
 public class JadwalPemberangkatan implements Serializable {
 
     @Transient
@@ -72,20 +69,11 @@ public class JadwalPemberangkatan implements Serializable {
     @Column(name = "harga")
     private int harga;
     @Basic(optional = false)
-    @Column(name = "harga_eksekutif")
-    private int hargaEksekutif;
+    @Column(name = "sisa_tiket")
+    private int sisaTiket;
     @Basic(optional = false)
-    @Column(name = "harga_firstclass")
-    private int hargaFirstclass;
-    @Basic(optional = false)
-    @Column(name = "ekonomi")
-    private int ekonomi;
-    @Basic(optional = false)
-    @Column(name = "eksekutif")
-    private int eksekutif;
-    @Basic(optional = false)
-    @Column(name = "firstclass")
-    private int firstclass;
+    @Column(name = "kelas")
+    private String kelas;
 
     public JadwalPemberangkatan() {
     }
@@ -94,7 +82,7 @@ public class JadwalPemberangkatan implements Serializable {
         this.id = id;
     }
 
-    public JadwalPemberangkatan(String id, String stasiunPemberangkatan, String stasiunTujuan, Date tanggal, Date waktuBerangkat, Date waktuSampai, int harga, int hargaEksekutif, int hargaFirstclass, int ekonomi, int eksekutif, int firstclass) {
+    public JadwalPemberangkatan(String id, String stasiunPemberangkatan, String stasiunTujuan, Date tanggal, Date waktuBerangkat, Date waktuSampai, int harga, int sisaTiket, String kelas) {
         this.id = id;
         this.stasiunPemberangkatan = stasiunPemberangkatan;
         this.stasiunTujuan = stasiunTujuan;
@@ -102,11 +90,8 @@ public class JadwalPemberangkatan implements Serializable {
         this.waktuBerangkat = waktuBerangkat;
         this.waktuSampai = waktuSampai;
         this.harga = harga;
-        this.hargaEksekutif = hargaEksekutif;
-        this.hargaFirstclass = hargaFirstclass;
-        this.ekonomi = ekonomi;
-        this.eksekutif = eksekutif;
-        this.firstclass = firstclass;
+        this.sisaTiket = sisaTiket;
+        this.kelas = kelas;
     }
 
     public String getId() {
@@ -179,54 +164,24 @@ public class JadwalPemberangkatan implements Serializable {
         changeSupport.firePropertyChange("harga", oldHarga, harga);
     }
 
-    public int getHargaEksekutif() {
-        return hargaEksekutif;
+    public int getSisaTiket() {
+        return sisaTiket;
     }
 
-    public void setHargaEksekutif(int hargaEksekutif) {
-        int oldHargaEksekutif = this.hargaEksekutif;
-        this.hargaEksekutif = hargaEksekutif;
-        changeSupport.firePropertyChange("hargaEksekutif", oldHargaEksekutif, hargaEksekutif);
+    public void setSisaTiket(int sisaTiket) {
+        int oldSisaTiket = this.sisaTiket;
+        this.sisaTiket = sisaTiket;
+        changeSupport.firePropertyChange("sisaTiket", oldSisaTiket, sisaTiket);
     }
 
-    public int getHargaFirstclass() {
-        return hargaFirstclass;
+    public String getKelas() {
+        return kelas;
     }
 
-    public void setHargaFirstclass(int hargaFirstclass) {
-        int oldHargaFirstclass = this.hargaFirstclass;
-        this.hargaFirstclass = hargaFirstclass;
-        changeSupport.firePropertyChange("hargaFirstclass", oldHargaFirstclass, hargaFirstclass);
-    }
-
-    public int getEkonomi() {
-        return ekonomi;
-    }
-
-    public void setEkonomi(int ekonomi) {
-        int oldEkonomi = this.ekonomi;
-        this.ekonomi = ekonomi;
-        changeSupport.firePropertyChange("ekonomi", oldEkonomi, ekonomi);
-    }
-
-    public int getEksekutif() {
-        return eksekutif;
-    }
-
-    public void setEksekutif(int eksekutif) {
-        int oldEksekutif = this.eksekutif;
-        this.eksekutif = eksekutif;
-        changeSupport.firePropertyChange("eksekutif", oldEksekutif, eksekutif);
-    }
-
-    public int getFirstclass() {
-        return firstclass;
-    }
-
-    public void setFirstclass(int firstclass) {
-        int oldFirstclass = this.firstclass;
-        this.firstclass = firstclass;
-        changeSupport.firePropertyChange("firstclass", oldFirstclass, firstclass);
+    public void setKelas(String kelas) {
+        String oldKelas = this.kelas;
+        this.kelas = kelas;
+        changeSupport.firePropertyChange("kelas", oldKelas, kelas);
     }
 
     @Override
