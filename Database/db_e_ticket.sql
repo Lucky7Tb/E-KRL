@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 24, 2019 at 11:45 AM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.2
+-- Waktu pembuatan: 29 Bulan Mei 2019 pada 11.19
+-- Versi server: 10.1.38-MariaDB
+-- Versi PHP: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin`
+-- Struktur dari tabel `admin`
 --
 
 CREATE TABLE `admin` (
@@ -35,7 +35,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `admin`
+-- Dumping data untuk tabel `admin`
 --
 
 INSERT INTO `admin` (`id`, `username`, `password`) VALUES
@@ -48,7 +48,7 @@ INSERT INTO `admin` (`id`, `username`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jadwal_pemberangkatan`
+-- Struktur dari tabel `jadwal_pemberangkatan`
 --
 
 CREATE TABLE `jadwal_pemberangkatan` (
@@ -59,26 +59,14 @@ CREATE TABLE `jadwal_pemberangkatan` (
   `waktu_berangkat` time NOT NULL,
   `waktu_sampai` time NOT NULL,
   `harga` int(50) NOT NULL,
-  `harga_eksekutif` int(255) NOT NULL,
-  `harga_firstclass` int(255) NOT NULL,
-  `ekonomi` int(11) NOT NULL,
-  `eksekutif` int(11) NOT NULL,
-  `firstclass` int(11) NOT NULL
+  `sisa_tiket` int(50) NOT NULL,
+  `kelas` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `jadwal_pemberangkatan`
---
-
-INSERT INTO `jadwal_pemberangkatan` (`id`, `stasiun_pemberangkatan`, `stasiun_tujuan`, `tanggal`, `waktu_berangkat`, `waktu_sampai`, `harga`, `harga_eksekutif`, `harga_firstclass`, `ekonomi`, `eksekutif`, `firstclass`) VALUES
-('PBKT072520', 'BD - Bandung - Bandung', 'CN - Cirebon - Cirebon', '2019-05-24', '02:00:00', '09:00:00', 100000, 100000, 100000, 20, 20, 20),
-('PBKT205651', 'BD - Bandung - Bandung', 'PSE - Pasar Senen - Jakarta', '2019-05-20', '09:00:00', '12:00:00', 50000, 100000, 150000, 20, 20, 10),
-('PBKT210826', 'BD - Bandung - Bandung', 'ML - Malang - Malang', '2018-12-30', '03:00:00', '06:00:00', 10000, 20000, 30000, 20, 20, 30);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pemesanan`
+-- Struktur dari tabel `pemesanan`
 --
 
 CREATE TABLE `pemesanan` (
@@ -86,57 +74,59 @@ CREATE TABLE `pemesanan` (
   `id_pemberangkatan` varchar(255) NOT NULL,
   `Nama_pemesan` varchar(255) NOT NULL,
   `tanggal_pemesanan` date NOT NULL,
-  `total_harga` int(255) NOT NULL
+  `total_harga` int(255) NOT NULL,
+  `jumlah_tiket` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `pemesanan`
+-- Trigger `pemesanan`
 --
-
-INSERT INTO `pemesanan` (`id_pemesanan`, `id_pemberangkatan`, `Nama_pemesan`, `tanggal_pemesanan`, `total_harga`) VALUES
-('093857', 'PBKT210826', 'Tyo', '2019-05-24', 10000),
-('100247', 'PBKT072520', 'fitria', '2019-05-24', 100000),
-('102839', 'PBKT210826', 'hadaina', '2019-05-24', 20000);
+DELIMITER $$
+CREATE TRIGGER `KurangiSisaTiket` AFTER INSERT ON `pemesanan` FOR EACH ROW BEGIN
+	UPDATE jadwal_pemberangkatan SET jadwal_pemberangkatan.sisa_tiket = jadwal_pemberangkatan.sisa_tiket - NEW.jumlah_tiket;
+END
+$$
+DELIMITER ;
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `admin`
+-- Indeks untuk tabel `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `jadwal_pemberangkatan`
+-- Indeks untuk tabel `jadwal_pemberangkatan`
 --
 ALTER TABLE `jadwal_pemberangkatan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `pemesanan`
+-- Indeks untuk tabel `pemesanan`
 --
 ALTER TABLE `pemesanan`
   ADD PRIMARY KEY (`id_pemesanan`),
   ADD KEY `id_pemberangkatan` (`id_pemberangkatan`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `admin`
+-- AUTO_INCREMENT untuk tabel `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- Constraints for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `pemesanan`
+-- Ketidakleluasaan untuk tabel `pemesanan`
 --
 ALTER TABLE `pemesanan`
   ADD CONSTRAINT `pemeberangkatan` FOREIGN KEY (`id_pemberangkatan`) REFERENCES `jadwal_pemberangkatan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
