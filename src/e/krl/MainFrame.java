@@ -14,6 +14,7 @@ import java.text.ParseException;
 import javax.swing.JOptionPane;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 import java.awt.event.KeyEvent;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 
@@ -24,6 +25,7 @@ public class MainFrame extends javax.swing.JFrame {
     Dimension Layar = Toolkit.getDefaultToolkit().getScreenSize();
     Date date = new Date();
     Admin admin = new Admin();
+    ImageIcon Icon;
     private int Total;
     private int Ticket;
     private int Harga;
@@ -48,6 +50,16 @@ public class MainFrame extends javax.swing.JFrame {
         Admin.setLocation(Layar.width / 2  - Admin.getSize().width / 2, Layar.height / 2 - Admin.getSize().height / 2);
         RegisterAdmin.setLocation(Layar.width / 2  - RegisterAdmin.getSize().width / 2, Layar.height / 2 - RegisterAdmin.getSize().height / 2);
         MainMenuAdmin.setLocation(Layar.width / 2  - MainMenuAdmin.getSize().width / 2, Layar.height / 2 - MainMenuAdmin.getSize().height / 2);
+        Icon = new ImageIcon("Icon/logo.jpg");
+        setIconImage(Icon.getImage());
+        Konfirmasi.setIconImage(Icon.getImage());
+        RegisterAdmin.setIconImage(Icon.getImage());
+        Admin.setIconImage(Icon.getImage());
+        MainMenuAdmin.setIconImage(Icon.getImage());
+    }
+    
+    private void setIcon(){
+        setIconImage(Toolkit.getDefaultToolkit().getImage("Image/logo.jpg"));
     }
     
     private void CheckSchedule(){
@@ -302,9 +314,10 @@ public class MainFrame extends javax.swing.JFrame {
         LoginAdmin = new javax.swing.JLabel();
         PriceDisplay = new javax.swing.JLabel();
         TotalDisplay = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
 
-        RegisterAdmin.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        RegisterAdmin.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         RegisterAdmin.setTitle("Registrasi Admin");
         RegisterAdmin.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -366,7 +379,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         RegisterAdmin.getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        MainMenuAdmin.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        MainMenuAdmin.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         MainMenuAdmin.setTitle("Main Menu");
         MainMenuAdmin.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -487,7 +500,7 @@ public class MainFrame extends javax.swing.JFrame {
         BackgroundAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Admin_data.png"))); // NOI18N
         MainMenuAdmin.getContentPane().add(BackgroundAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, -10, 670, 370));
 
-        Admin.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        Admin.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         Admin.setTitle("Login");
         Admin.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -540,7 +553,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         Admin.getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 370, 280));
 
-        Konfirmasi.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        Konfirmasi.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         Konfirmasi.setTitle("Konfirmasi Pembayaran");
         Konfirmasi.setResizable(false);
         Konfirmasi.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -600,7 +613,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Admin_data.png"))); // NOI18N
         Konfirmasi.getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, -100, -1, -1));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Jadwal Kereta Api");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -748,7 +761,7 @@ public class MainFrame extends javax.swing.JFrame {
                 LoginAdminMouseClicked(evt);
             }
         });
-        getContentPane().add(LoginAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 0, 80, 30));
+        getContentPane().add(LoginAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 0, 80, 30));
 
         PriceDisplay.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         PriceDisplay.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -757,6 +770,17 @@ public class MainFrame extends javax.swing.JFrame {
         TotalDisplay.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         TotalDisplay.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         getContentPane().add(TotalDisplay, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 290, 90, 30));
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setText("QUIT");
+        jLabel15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel15MouseClicked(evt);
+            }
+        });
+        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, -6, 60, 40));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Admin_data_2.png"))); // NOI18N
         getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(-100, 0, 1220, 340));
@@ -911,6 +935,10 @@ public class MainFrame extends javax.swing.JFrame {
         this.setVisible(true);
     }//GEN-LAST:event_jLabel5MouseClicked
 
+    private void jLabel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseClicked
+        this.dispose();
+    }//GEN-LAST:event_jLabel15MouseClicked
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
             try {
@@ -979,6 +1007,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
