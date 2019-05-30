@@ -16,6 +16,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import java.awt.event.KeyEvent;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 
 public class MainFrame extends javax.swing.JFrame {
@@ -95,7 +96,7 @@ public class MainFrame extends javax.swing.JFrame {
                 LoadTableAdmin();
                 ClearForm();
             } else {
-                System.out.println("Gagal");
+                 JOptionPane.showMessageDialog(MainMenuAdmin, "Data Gagal diMasukan", "Gagal", ERROR_MESSAGE);
             }
         } catch (SQLException e) {
             e.getSQLState();
@@ -111,7 +112,7 @@ public class MainFrame extends javax.swing.JFrame {
                 LoadTableAdmin();
                 ClearForm();
             } else {
-                System.out.println("Gagal");
+                 JOptionPane.showMessageDialog(MainMenuAdmin, "Data Gagal diHapus", "Gagal", ERROR_MESSAGE);
             }
         }catch(SQLException e){
             e.getSQLState();
@@ -129,7 +130,7 @@ public class MainFrame extends javax.swing.JFrame {
               LoadTableAdmin();
               ClearForm();
             } else {
-                System.out.println("Gagal");
+                JOptionPane.showMessageDialog(MainMenuAdmin, "Data Gagal diHapus", "Gagal", ERROR_MESSAGE);
             }
         }catch(SQLException e){
             e.getSQLState();
@@ -171,19 +172,18 @@ public class MainFrame extends javax.swing.JFrame {
             Query = String.format("SELECT username FROM admin WHERE username = '%s'", admin.getUsername());
             result = statement.executeQuery(Query);
             if (result.next()) {
-                System.out.println("Username Sudah Ada");
+                JOptionPane.showMessageDialog(RegisterAdmin, "Username Sudah Ada", "Warning", INFORMATION_MESSAGE);
                 UsernameRegister.setText("");
                 PasswordRegister.setText("");
             } else {
                 Query = "INSERT INTO admin (username,password) VALUE ('%s','%s')";
                 Query = String.format(Query, admin.getUsername(), admin.getPassword());
                 if (!statement.execute(Query)) {
-                    System.out.println("Register Berhasil");
                     JOptionPane.showMessageDialog(RegisterAdmin, "Register Berhasil", "Success", INFORMATION_MESSAGE);
                     Admin.setVisible(true);
                     RegisterAdmin.dispose();
                 } else {
-                    System.out.println("Register Gagal");
+                    JOptionPane.showMessageDialog(RegisterAdmin, "Register Gagal", "Gagal", ERROR_MESSAGE);
                 }
             }
         } catch (SQLException e) {
